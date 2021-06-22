@@ -66,6 +66,15 @@ public class KNN {
         if(algorithm != null) this.algorithm = algorithm;
     }
 
+    /**
+     * An universal entrance for using KNN,
+     * will invoke specific KNN function accoarding to the algorithm you choose
+     * @param colDistance  the names of columns showing different features, will be used to calculate distance
+     * @param colCategory  the name of the single column showing categories
+     * @param test         the single testing set for KNN
+     * @return             the result of KNN
+     * @throws IllegalArgumentException
+     */
     public String KNN(String[] colDistance, String colCategory,
                       Double[] test) throws IllegalArgumentException{
         if(this.algorithm == "brute") return KNNBrute(colDistance, colCategory, test);
@@ -73,7 +82,7 @@ public class KNN {
     }
 
     /**
-     * Single category KNN with brute-force search algorithm
+     * Single category KNN with brute-force search algorithm, should only be invoked by KNN()
      * @param colDistance  the names of columns showing different features, will be used to calculate distance
      * @param colCategory  the name of the single column showing categories
      * @param test         the single testing set for KNN
@@ -113,7 +122,7 @@ public class KNN {
         // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
         //SparkDataFrame.showDF(calResult);  // for debug
-        //SparkDataFrame.showDF(neighbourResult);  // for debug
+        SparkDataFrame.showDF(neighbourResult);  // for debug
 
         Row maxNeighbour = (Row) neighbourResult.head();
         //System.out.println(maxNeighbour.mkString(","));  // for debug

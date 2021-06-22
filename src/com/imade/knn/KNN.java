@@ -13,6 +13,8 @@ import org.apache.spark.sql.Row;
  * @version     v1.0 (2021.06)
  * Dependency: Apache Spark for DataFrame implementation
  *
+ * Remark:     We use the squared-distance to avoid calculating square root
+ *
  */
 public class KNN {
     private Dataset<Row> df;
@@ -35,7 +37,7 @@ public class KNN {
      *                          - "brute":     use brute-force search                                      <br>
      *                          - "auto":      attempt to decide the most appropriate algorithm
      * @param leaf_size     the leaf size of BallTree or KDTree, default = 30
-     * @throws IllegalArgumentException
+     * @throws              IllegalArgumentException
      */
     public KNN(Dataset<Row> df, Integer n_neighbours, String weight,
                String algorithm, Integer leaf_size) throws IllegalArgumentException {
@@ -57,7 +59,7 @@ public class KNN {
      *                          - "kd_tree":   use KDTree                                                  <br>
      *                          - "brute":     use brute-force search                                      <br>
      *                          - "auto":      attempt to decide the most appropriate algorithm
-     * @throws IllegalArgumentException
+     * @throws              IllegalArgumentException
      */
     public KNN(Dataset<Row> df, Integer n_neighbours, String algorithm) throws IllegalArgumentException {
         if(df == null) throw new IllegalArgumentException("Error: DataFrame must be specified!");
@@ -73,7 +75,7 @@ public class KNN {
      * @param colCategory  the name of the single column showing categories
      * @param test         the single testing set for KNN
      * @return             the result of KNN
-     * @throws IllegalArgumentException
+     * @throws             IllegalArgumentException
      */
     public String KNN(String[] colDistance, String colCategory,
                       Double[] test) throws IllegalArgumentException{
@@ -87,14 +89,14 @@ public class KNN {
      * @param colCategory  the name of the single column showing categories
      * @param test         the single testing set for KNN
      * @return             the result of KNN
-     * @throws IllegalArgumentException
+     * @throws             IllegalArgumentException
      */
     private String KNNBrute(String[] colDistance, String colCategory,
                          Double[] test) throws IllegalArgumentException {
 
         if(colDistance.length != test.length){
             throw new IllegalArgumentException("Error: Size of training set (" + colDistance.length + ") and " +
-                    "size of testing set (" + test.length + ") is mismatched !");
+                    "testing set (" + test.length + ") mismatched !");
         }
 
         // >>>>>>>>>>>>>>>>>>>>>>>>> Calculate Distance and Select n Neighbourhoods >>>>>>>>>>>>>>>>>>>>>>>>>
@@ -121,7 +123,7 @@ public class KNN {
 
         // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-        SparkDataFrame.showDF(calResult);  // for debug
+        //SparkDataFrame.showDF(calResult);  // for debug
 
         Row maxNeighbour = (Row) neighbourResult.head();
         //System.out.println(maxNeighbour.mkString(","));  // for debug

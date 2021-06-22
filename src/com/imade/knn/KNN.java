@@ -121,8 +121,7 @@ public class KNN {
 
         // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-        //SparkDataFrame.showDF(calResult);  // for debug
-        SparkDataFrame.showDF(neighbourResult);  // for debug
+        SparkDataFrame.showDF(calResult);  // for debug
 
         Row maxNeighbour = (Row) neighbourResult.head();
         //System.out.println(maxNeighbour.mkString(","));  // for debug
